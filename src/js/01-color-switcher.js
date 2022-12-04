@@ -1,23 +1,15 @@
 // 1. Знаходимо усі посилання
 
-// const startBut = document.querySelector('[data-start]');
-// const stopBut = document.querySelector('[data-stop]');
-// const body = document.querySelector('body');
+const startBut = document.querySelector('[data-start]');
+const stopBut = document.querySelector('[data-stop]');
+const body = document.querySelector('body');
 
 
+// 2. Напиши скрипт, який після натискання кнопки «Start», раз на секунду 
+// змінює колір фону < body > на випадкове значення, використовуючи інлайн стиль. 
+// Натисканням на кнопку «Stop» зміна кольору фону повинна зупинятися.
 
-
-
-
-
-
-const refs = {
-  start: document.querySelector('[data-start]'),
-  stop: document.querySelector('[data-stop]'),
-  body: document.querySelector('body'),
-};
-
-const colorChanger = {
+const bodyColor = {
   intervalId: null,
   isActive: false,
   start() {
@@ -27,31 +19,33 @@ const colorChanger = {
     this.isActive = true;
 
     this.intervalId = setInterval(() => {
-      bodyBGColorChanger();
+      bodyRandomColorChanger();
     }, 1000);
 
-    refs.start.disabled = true;
+    startBut.disabled = true;
   },
 
   stop() {
     clearInterval(this.intervalId);
     this.isActive = false;
-    refs.start.disabled = false;
+    startBut.disabled = false;
   },
 };
 
-refs.start.addEventListener('click', () => {
-  colorChanger.start();
+startBut.addEventListener('click', () => {
+  bodyColor.start();
 });
 
-refs.stop.addEventListener('click', () => {
-  colorChanger.stop();
+stopBut.addEventListener('click', () => {
+  bodyColor.stop();
 });
+
+// 3. Для генерування випадкового кольору використовуй функцію
 
 function getRandomHexColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
 
-function bodyBGColorChanger() {
-  refs.body.style.backgroundColor = getRandomHexColor();
+function bodyRandomColorChanger() {
+  body.style.backgroundColor = getRandomHexColor();
 }
