@@ -1,10 +1,18 @@
+// 1. Підключаємо бібліотеку 
 import Notiflix from 'notiflix';
 
+
+// 2. Знаходимо посилання 
 const refs = {
   form: document.querySelector('.form'),
 };
 
 refs.form.addEventListener('submit', onFormSubmit);
+
+
+/*3. Напиши скрипт, який на момент сабміту форми викликає функцію createPromise(position, delay) 
+стільки разів, скільки ввели в поле amount.Під час кожного виклику передай їй номер промісу(position),
+що створюється, і затримку, враховуючи першу затримку(delay), введену користувачем, і крок(step).*/
 
 function onFormSubmit(e) {
   e.preventDefault();
@@ -19,12 +27,16 @@ function onFormSubmit(e) {
   }
 }
 
+/*4. Доповни код функції createPromise таким чином, щоб вона повертала один проміс,
+який виконується або відхиляється через delay часу.Значенням промісу повинен бути об'єкт,
+в якому будуть властивості position і delay зі значеннями однойменних параметрів.*/
+
 function createPromise(position, delay) {
   const promise = new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
+    const random = Math.random() > 0.3;
 
     setTimeout(() => {
-      if (shouldResolve) {
+      if (random) {
         resolve({ position, delay });
       } else {
         reject({ position, delay });

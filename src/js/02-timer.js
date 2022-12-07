@@ -1,17 +1,41 @@
-// 1. Підключаємо бібліотеку flatpickr
+// 1. Підключаємо бібліотеки
+
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import Notiflix from 'notiflix';
 
 // 2. Знаходимо усі посилання
+
 const refs = {
-  input: document.querySelector('#datetime-picker'),
+  picker: document.querySelector('#datetime-picker'),
   start: document.querySelector('button[data-start]'),
   days: document.querySelector('span[data-days]'),
   hours: document.querySelector('span[data-hours]'),
   mins: document.querySelector('span[data-minutes]'),
   secs: document.querySelector('span[data-seconds]'),
 };
+
+
+// 3. Функція по вирахуванню часу:
+
+function convertMs(ms) {
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  const days = addLeadingZero(Math.floor(ms / day));
+  const hours = addLeadingZero(Math.floor((ms % day) / hour));
+  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
+  const seconds = addLeadingZero(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  );
+
+  return { days, hours, minutes, seconds };
+}
+
+
+// 4. Скрипт таймера, який здійснює зворотний відлік до певної дати
 
 let intervalId = null;
 refs.start.disabled = true;
@@ -51,6 +75,8 @@ const options = {
 
 flatpickr('#datetime-picker', options);
 
+// 5. Показ таймера 
+
 function viewOfTimer({ days, hours, minutes, seconds }) {
   refs.days.textContent = `${days}`;
   refs.hours.textContent = `${hours}`;
@@ -62,19 +88,3 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
-function convertMs(ms) {
-  // Number of milliseconds per unit of time
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  const days = addLeadingZero(Math.floor(ms / day));
-  const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-  const seconds = addLeadingZero(
-    Math.floor((((ms % day) % hour) % minute) / second)
-  );
-
-  return { days, hours, minutes, seconds };
-}
